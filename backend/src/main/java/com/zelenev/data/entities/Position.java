@@ -14,7 +14,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
         schema = "public",
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "uk_title",
+                        name = "uk_position_title",
                         columnNames = "title"
                 )
         }
