@@ -4,14 +4,48 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+import static javax.persistence.GenerationType.SEQUENCE;
+
 @Entity(name = "Account")
+@Table(
+        name = "account",
+        schema = "public",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_login",
+                        columnNames = "login"
+                )
+        }
+)
 public class Account implements Serializable {
 
     @Id
+    @SequenceGenerator(
+            name = "account_sequence",
+            sequenceName = "account_sequence",
+            schema = "public",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "account_sequence"
+    )
+    @Column(
+            name = "id",
+            updatable = false
+    )
     private Integer id;
 
+    @Column(
+            name = "login",
+            nullable = false
+    )
     private String login;
 
+    @Column(
+            name = "password",
+            nullable = false
+    )
     private String password;
 
     public Account() {
