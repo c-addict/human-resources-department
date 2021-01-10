@@ -81,6 +81,20 @@ public class Position implements Serializable {
         this.title = title;
     }
 
+    public void addCard(Card card) {
+        if (!this.cards.contains(card)) {
+            this.cards.add(card);
+            card.setPosition(this);
+        }
+    }
+
+    public void removeCard(Card card) {
+        if (this.cards.contains(card)) {
+            this.cards.remove(card);
+            card.setPosition(null);
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
