@@ -51,7 +51,8 @@ public class Account implements Serializable {
     @OneToOne(
             fetch = FetchType.EAGER,
             mappedBy = "account",
-            orphanRemoval = true
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
     )
     private Card card;
 
