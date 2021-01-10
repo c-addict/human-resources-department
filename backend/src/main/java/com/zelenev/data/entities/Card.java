@@ -38,7 +38,10 @@ public class Card implements Serializable {
     )
     @JoinColumn(
             name = "account_id",
-            referencedColumnName = "id"
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(
+                    name = "card_id_account_id_fk"
+            )
     )
     private Account account;
 
