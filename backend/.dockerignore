@@ -1,0 +1,19 @@
+# Created by .ignore support plugin (hsz.mobi)
+
+# IntelliJ project files
+.idea
+.gradle
+build/
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Log file
+*.log
+
+# Package Files #
+*.jar
+
+# General
+.DS_Store
+
