@@ -93,6 +93,14 @@ public class Account implements Serializable {
         this.password = password;
     }
 
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
