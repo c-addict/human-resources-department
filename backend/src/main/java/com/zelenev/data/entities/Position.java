@@ -4,6 +4,7 @@ package com.zelenev.data.entities;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -44,6 +45,13 @@ public class Position implements Serializable {
             length = 100
     )
     private String title;
+
+    @OneToMany(
+            mappedBy = "position",
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+    )
+    private List<Card> cards;
 
     public Position() {
     }

@@ -93,11 +93,19 @@ public class Card implements Serializable {
     )
     private Department department;
 
-    @Column(
-            name = "position_id",
-            nullable = false
+    @ManyToOne(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
     )
-    private Integer positionId;
+    @JoinColumn(
+            name = "position_id",
+            referencedColumnName = "id",
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    name = "card_position_id_fk"
+            )
+    )
+    private Position position;
 
     public Card() {
     }
@@ -109,7 +117,7 @@ public class Card implements Serializable {
                 String phone,
                 Integer salary,
                 Department department,
-                Integer positionId) {
+                Position position) {
         this.account = account;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -117,7 +125,7 @@ public class Card implements Serializable {
         this.phone = phone;
         this.salary = salary;
         this.department = department;
-        this.positionId = positionId;
+        this.position = position;
     }
 
     public Card(Integer id,
@@ -128,7 +136,7 @@ public class Card implements Serializable {
                 String phone,
                 Integer salary,
                 Department department,
-                Integer positionId) {
+                Position position) {
         this.id = id;
         this.account = account;
         this.firstName = firstName;
@@ -137,7 +145,7 @@ public class Card implements Serializable {
         this.phone = phone;
         this.salary = salary;
         this.department = department;
-        this.positionId = positionId;
+        this.position = position;
     }
 
     public Integer getId() {
@@ -204,12 +212,12 @@ public class Card implements Serializable {
         this.department = department;
     }
 
-    public Integer getPositionId() {
-        return positionId;
+    public Position getPosition() {
+        return position;
     }
 
-    public void setPositionId(Integer positionId) {
-        this.positionId = positionId;
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     @Override
@@ -217,12 +225,12 @@ public class Card implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
-        return id.equals(card.id) && firstName.equals(card.firstName) && lastName.equals(card.lastName) && birthdayDate.equals(card.birthdayDate) && phone.equals(card.phone) && salary.equals(card.salary) && department.equals(card.department) && positionId.equals(card.positionId);
+        return id.equals(card.id) && firstName.equals(card.firstName) && lastName.equals(card.lastName) && birthdayDate.equals(card.birthdayDate) && phone.equals(card.phone) && salary.equals(card.salary) && department.equals(card.department) && position.equals(card.position);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, birthdayDate, phone, salary, department, positionId);
+        return Objects.hash(id, firstName, lastName, birthdayDate, phone, salary, department, position);
     }
 
     @Override
@@ -235,7 +243,7 @@ public class Card implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", salary=" + salary +
                 ", departmentId=" + department +
-                ", positionId=" + positionId +
+                ", positionId=" + position +
                 '}';
     }
 }
