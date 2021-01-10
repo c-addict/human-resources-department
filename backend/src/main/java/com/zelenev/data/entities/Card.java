@@ -79,11 +79,19 @@ public class Card implements Serializable {
     )
     private Integer salary;
 
-    @Column(
-            name = "department_id",
-            nullable = false
+    @ManyToOne(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
     )
-    private Integer departmentId;
+    @JoinColumn(
+            name = "department_id",
+            referencedColumnName = "id",
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    name = "card_department_id_fk"
+            )
+    )
+    private Department department;
 
     @Column(
             name = "position_id",
@@ -100,7 +108,7 @@ public class Card implements Serializable {
                 Date birthdayDate,
                 String phone,
                 Integer salary,
-                Integer departmentId,
+                Department department,
                 Integer positionId) {
         this.account = account;
         this.firstName = firstName;
@@ -108,7 +116,7 @@ public class Card implements Serializable {
         this.birthdayDate = birthdayDate;
         this.phone = phone;
         this.salary = salary;
-        this.departmentId = departmentId;
+        this.department = department;
         this.positionId = positionId;
     }
 
@@ -119,7 +127,7 @@ public class Card implements Serializable {
                 Date birthdayDate,
                 String phone,
                 Integer salary,
-                Integer departmentId,
+                Department department,
                 Integer positionId) {
         this.id = id;
         this.account = account;
@@ -128,7 +136,7 @@ public class Card implements Serializable {
         this.birthdayDate = birthdayDate;
         this.phone = phone;
         this.salary = salary;
-        this.departmentId = departmentId;
+        this.department = department;
         this.positionId = positionId;
     }
 
@@ -188,12 +196,12 @@ public class Card implements Serializable {
         this.salary = salary;
     }
 
-    public Integer getDepartmentId() {
-        return departmentId;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setDepartmentId(Integer departmentId) {
-        this.departmentId = departmentId;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public Integer getPositionId() {
@@ -209,12 +217,12 @@ public class Card implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
-        return id.equals(card.id) && firstName.equals(card.firstName) && lastName.equals(card.lastName) && birthdayDate.equals(card.birthdayDate) && phone.equals(card.phone) && salary.equals(card.salary) && departmentId.equals(card.departmentId) && positionId.equals(card.positionId);
+        return id.equals(card.id) && firstName.equals(card.firstName) && lastName.equals(card.lastName) && birthdayDate.equals(card.birthdayDate) && phone.equals(card.phone) && salary.equals(card.salary) && department.equals(card.department) && positionId.equals(card.positionId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, birthdayDate, phone, salary, departmentId, positionId);
+        return Objects.hash(id, firstName, lastName, birthdayDate, phone, salary, department, positionId);
     }
 
     @Override
@@ -226,7 +234,7 @@ public class Card implements Serializable {
                 ", birthdayDate=" + birthdayDate +
                 ", phone='" + phone + '\'' +
                 ", salary=" + salary +
-                ", departmentId=" + departmentId +
+                ", departmentId=" + department +
                 ", positionId=" + positionId +
                 '}';
     }

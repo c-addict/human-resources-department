@@ -2,6 +2,7 @@ package com.zelenev.data.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -43,6 +44,13 @@ public class Department implements Serializable {
     )
     private String title;
 
+    @OneToMany(
+            mappedBy = "department",
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+    )
+    private List<Card> cards;
+
     public Department() {
     }
 
@@ -69,6 +77,28 @@ public class Department implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
+    }
+
+    public void addCard(Card card){
+        if (!this.cards.contains(card)) {
+            this.cards.add(card);
+            card.setDepartment(this);
+        }
+    }
+
+    public void removeCard(Card card) {
+        if (this.cards.contains(card)) {
+            this.cards.remove(card);
+            card.setDepartment(null);
+        }
     }
 
     @Override
