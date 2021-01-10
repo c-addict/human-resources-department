@@ -48,6 +48,12 @@ public class Account implements Serializable {
     )
     private String password;
 
+    @OneToOne(
+            fetch = FetchType.EAGER,
+            mappedBy = "account"
+    )
+    private Card card;
+
     public Account() {
     }
 

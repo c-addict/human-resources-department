@@ -32,6 +32,16 @@ public class Card implements Serializable {
     )
     private Integer id;
 
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            name = "account_id",
+            referencedColumnName = "id"
+    )
+    private Account account;
+
     @Column(
             name = "first_name",
             nullable = false,
@@ -81,13 +91,15 @@ public class Card implements Serializable {
     public Card() {
     }
 
-    public Card(String firstName,
+    public Card(Account account,
+                String firstName,
                 String lastName,
                 Date birthdayDate,
                 String phone,
                 Integer salary,
                 Integer departmentId,
                 Integer positionId) {
+        this.account = account;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdayDate = birthdayDate;
@@ -98,6 +110,7 @@ public class Card implements Serializable {
     }
 
     public Card(Integer id,
+                Account account,
                 String firstName,
                 String lastName,
                 Date birthdayDate,
@@ -106,6 +119,7 @@ public class Card implements Serializable {
                 Integer departmentId,
                 Integer positionId) {
         this.id = id;
+        this.account = account;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdayDate = birthdayDate;
@@ -121,6 +135,14 @@ public class Card implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public String getFirstName() {
