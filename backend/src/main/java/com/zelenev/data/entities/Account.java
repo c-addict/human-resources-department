@@ -50,7 +50,8 @@ public class Account implements Serializable {
 
     @OneToOne(
             fetch = FetchType.EAGER,
-            mappedBy = "account"
+            mappedBy = "account",
+            orphanRemoval = true
     )
     private Card card;
 
