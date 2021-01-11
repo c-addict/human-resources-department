@@ -40,6 +40,10 @@ class AuthenticationService {
 
         localStorage.setItem("token", data.token);
     }
+
+    logout = () => {
+        localStorage.clear();
+    }
 }
 
 
