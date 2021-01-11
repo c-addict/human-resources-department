@@ -24,8 +24,8 @@ public class AccountService {
         return this.accountRepository.findAll();
     }
 
-    public Optional<Account> read(Integer id) {
-        return this.accountRepository.findById(id);
+    public Optional<Account> read(String login) {
+        return this.accountRepository.findByLogin(login);
     }
 
     public void create(Account account) {

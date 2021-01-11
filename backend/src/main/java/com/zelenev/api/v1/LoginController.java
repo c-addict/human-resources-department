@@ -1,12 +1,11 @@
 package com.zelenev.api.v1;
 
 import com.zelenev.data.dto.AccountRegistrationDto;
+import com.zelenev.data.dto.AuthenticationDto;
 import com.zelenev.data.entities.Account;
 import com.zelenev.services.AccountService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.zelenev.services.LoginService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(
@@ -14,20 +13,22 @@ import org.springframework.web.bind.annotation.RestController;
 )
 public class LoginController {
 
-    private final AccountService accountService;
+    private final LoginService loginService;
 
-    public LoginController(AccountService accountService) {
-        this.accountService = accountService;
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
     }
 
+    @GetMapping
+    public AuthenticationDto login(@RequestBody AccountRegistrationDto accountRegistrationDto) {
+        Account account = new Account();
 
-    @PostMapping
-    public void registration(@RequestBody AccountRegistrationDto accountDto) {
-        Account newUserAccount = new Account();
+        String login = accountRegistrationDto.getLogin();
+        String password = accountRegistrationDto.getPassword();
 
-        newUserAccount.setLogin(accountDto.getLogin());
-        newUserAccount.setPassword(accountDto.getPassword());
+        account.setLogin(login);
+        account.setPassword(password);
 
-        accountService.create(newUserAccount);
+        return loginService.login(account);
     }
 }
