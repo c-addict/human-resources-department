@@ -12,8 +12,11 @@ class AuthenticationService {
 
         await fetch(REGISTRATION_URL,
             {
-                    method: 'POST',
-                    body: JSON.stringify(registrationData)
+                method: 'POST',
+                body: JSON.stringify(registrationData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
         });
     }
 
@@ -27,7 +30,10 @@ class AuthenticationService {
         const response = await fetch(LOGIN_URL,
             {
                 method: "POST",
-                body: JSON.stringify(loginData)
+                body: JSON.stringify(loginData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
 
         const data = await response.json();
