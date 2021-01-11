@@ -33,6 +33,17 @@ public class Education implements Serializable {
     )
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(
+            name = "account_id",
+            referencedColumnName = "id",
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    name = "education_to_card_id_fk"
+            )
+    )
+    private Card card;
+
     @Column(
             name = "university",
             nullable = false,
@@ -71,11 +82,13 @@ public class Education implements Serializable {
     public Education() {
     }
 
-    public Education(String university,
+    public Education(Card card,
+                     String university,
                      String faculty,
                      String degree,
                      Date dateAttendedFrom,
                      Date dateAttendedTo) {
+        this.card = card;
         this.university = university;
         this.faculty = faculty;
         this.degree = degree;
@@ -84,11 +97,13 @@ public class Education implements Serializable {
     }
 
     public Education(Integer id,
+                     Card card,
                      String university,
                      String faculty,
                      String degree,
                      Date dateAttendedFrom,
                      Date dateAttendedTo) {
+        this.card = card;
         this.id = id;
         this.university = university;
         this.faculty = faculty;
@@ -103,6 +118,15 @@ public class Education implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Card getCard() {
+
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
     }
 
     public String getUniversity() {

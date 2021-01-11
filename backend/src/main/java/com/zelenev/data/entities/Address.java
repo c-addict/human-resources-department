@@ -30,6 +30,19 @@ public class Address implements Serializable {
     )
     private Integer id;
 
+    @ManyToOne(
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            name = "card_id",
+            referencedColumnName = "id",
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    name = "address_to_card_id_fk"
+            )
+    )
+    private Card card;
+
     @Column(
             name = "country",
             nullable = false,
@@ -67,11 +80,13 @@ public class Address implements Serializable {
     public Address() {
     }
 
-    public Address(String country,
+    public Address(Card card,
+                   String country,
                    String city,
                    String street,
                    Integer building,
                    String postcode) {
+        this.card = card;
         this.country = country;
         this.city = city;
         this.street = street;
@@ -80,12 +95,14 @@ public class Address implements Serializable {
     }
 
     public Address(Integer id,
+                   Card card,
                    String country,
                    String city,
                    String street,
                    Integer building,
                    String postcode) {
         this.id = id;
+        this.card = card;
         this.country = country;
         this.city = city;
         this.street = street;
@@ -141,23 +158,32 @@ public class Address implements Serializable {
         this.postcode = postcode;
     }
 
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return id.equals(address.id) && country.equals(address.country) && city.equals(address.city) && street.equals(address.street) && building.equals(address.building) && postcode.equals(address.postcode);
+        return id.equals(address.id) && card.equals(address.card) && country.equals(address.country) && city.equals(address.city) && street.equals(address.street) && building.equals(address.building) && postcode.equals(address.postcode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, country, city, street, building, postcode);
+        return Objects.hash(id, card, country, city, street, building, postcode);
     }
 
     @Override
     public String toString() {
         return "Address{" +
                 "id=" + id +
+                ", card=" + card +
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", street='" + street + '\'' +

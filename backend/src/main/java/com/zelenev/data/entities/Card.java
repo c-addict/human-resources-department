@@ -3,6 +3,8 @@ package com.zelenev.data.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -106,6 +108,22 @@ public class Card implements Serializable {
             )
     )
     private Position position;
+
+    @OneToMany(
+            mappedBy = "card",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    private List<Address> addresses = new LinkedList<>();
+
+    @OneToMany(
+            mappedBy = "card",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    private List<Education> educations = new LinkedList<>();
 
     public Card() {
     }
@@ -212,12 +230,56 @@ public class Card implements Serializable {
         this.department = department;
     }
 
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
     public Position getPosition() {
         return position;
     }
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public List<Education> getEducations() {
+        return educations;
+    }
+
+    public void setEducations(List<Education> educations) {
+        this.educations = educations;
+    }
+
+    public void addAddress(Address address) {
+        if (!this.addresses.contains(address)) {
+            this.addresses.add(address);
+            address.setCard(this);
+        }
+    }
+
+    public void removeAddress(Address address) {
+        if (this.addresses.contains(address)) {
+            this.addresses.remove(address);
+            address.setCard(null);
+        }
+    }
+
+    public void addEducation(Education education) {
+        if (!this.educations.contains(education)) {
+            this.educations.add(education);
+            education.setCard(this);
+        }
+    }
+
+    public void removeEducation(Education education) {
+        if (this.educations.contains(education)) {
+            this.educations.remove(education);
+            education.setCard(null);
+        }
     }
 
     @Override

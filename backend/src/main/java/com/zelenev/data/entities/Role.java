@@ -2,6 +2,8 @@ package com.zelenev.data.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -43,6 +45,13 @@ public class Role implements Serializable {
     )
     private String title;
 
+    @OneToMany(
+            mappedBy = "role",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            fetch = FetchType.LAZY
+    )
+    private List<AccountRole> accountsRoles = new LinkedList<>();
+
     public Role() {
     }
 
@@ -69,6 +78,14 @@ public class Role implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<AccountRole> getAccountsRoles() {
+        return accountsRoles;
+    }
+
+    public void setAccountsRoles(List<AccountRole> accountsRoles) {
+        this.accountsRoles = accountsRoles;
     }
 
     @Override

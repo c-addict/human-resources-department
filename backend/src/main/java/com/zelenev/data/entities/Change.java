@@ -146,18 +146,19 @@ public class Change implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Change change = (Change) o;
-        return id.equals(change.id) && parameter.equals(change.parameter) && field.equals(change.field) && value.equals(change.value) && date.equals(change.date);
+        return id.equals(change.id) && account.equals(change.account) && parameter.equals(change.parameter) && field.equals(change.field) && value.equals(change.value) && date.equals(change.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, parameter, field, value, date);
+        return Objects.hash(id, account, parameter, field, value, date);
     }
 
     @Override
     public String toString() {
         return "Change{" +
                 "id=" + id +
+                ", account=" + account +
                 ", parameter='" + parameter + '\'' +
                 ", field='" + field + '\'' +
                 ", value='" + value + '\'' +

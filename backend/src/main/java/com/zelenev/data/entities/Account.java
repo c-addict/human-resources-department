@@ -58,30 +58,18 @@ public class Account implements Serializable {
     )
     private Card card;
 
-    @ManyToMany(
+    @OneToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            mappedBy = "account"
+    )
+    private List<AccountTask> accountTasks = new LinkedList<>();
+
+
+    @OneToMany(
+            mappedBy = "account",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
     )
-    @JoinTable(
-            name = "user_task",
-            schema = "public",
-            joinColumns = @JoinColumn(
-                    name = "account_id",
-                    referencedColumnName = "id",
-                    nullable = false,
-                    foreignKey = @ForeignKey(
-                            name = "account_task_to_account_fk"
-                    )
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "task_id",
-                    referencedColumnName = "id",
-                    nullable = false,
-                    foreignKey = @ForeignKey(
-                            name = "account_task_to_task_fk"
-                    )
-            )
-    )
-    private List<Task> tasks = new LinkedList<>();
+    private List<AccountRole> accountRoles = new LinkedList<>();
 
     @OneToMany(
             mappedBy = "account",
@@ -89,6 +77,13 @@ public class Account implements Serializable {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
     )
     private List<Change> changes = new LinkedList<>();
+
+    @OneToMany(
+            mappedBy = "account",
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+    )
+    private List<Vacation> vacations = new LinkedList<>();
 
     public Account() {
     }
@@ -132,22 +127,12 @@ public class Account implements Serializable {
         return card;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
+    public List<AccountTask> getAccountTasks() {
+        return accountTasks;
     }
 
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
-
-    public void takeTask(Task task) {
-        this.tasks.add(task);
-        task.getAccounts().add(this);
-    }
-
-    public void completeTask(Task task) {
-        this.tasks.remove(task);
-        task.getAccounts().remove(this);
+    public void setAccountTasks(List<AccountTask> accountTasks) {
+        this.accountTasks = accountTasks;
     }
 
     public void setCard(Card card) {
@@ -162,6 +147,32 @@ public class Account implements Serializable {
         this.changes = changes;
     }
 
+    public List<Vacation> getVacations() {
+        return vacations;
+    }
+
+    public void setVacations(List<Vacation> vacations) {
+        this.vacations = vacations;
+    }
+
+    public List<AccountRole> getAccountRoles() {
+        return accountRoles;
+    }
+
+    public void setAccountRoles(List<AccountRole> accountRoles) {
+        this.accountRoles = accountRoles;
+    }
+
+    public void addAccountTask(AccountTask accountTask) {
+        if (!this.accountTasks.contains(accountTask)) {
+            this.accountTasks.add(accountTask);
+        }
+    }
+
+    public void removeAccountTask(AccountTask accountTask) {
+        this.accountTasks.remove(accountTask);
+    }
+
     public void addChange(Change change) {
         if (!this.changes.contains(change)) {
             this.changes.add(change);
@@ -174,6 +185,23 @@ public class Account implements Serializable {
             this.changes.remove(change);
             change.setAccount(null);
         }
+    }
+
+    public void addVacation(Vacation vacation) {
+        if (!this.vacations.contains(vacation)) {
+            this.vacations.add(vacation);
+            vacation.setAccount(this);
+        }
+    }
+
+    public void addAccountRole(AccountRole accountRole) {
+        if (!this.accountRoles.contains(accountRole)) {
+            this.accountRoles.add(accountRole);
+        }
+    }
+
+    public void removeAccountRole(AccountRole accountRole) {
+        this.accountRoles.remove(accountRole);
     }
 
     @Override

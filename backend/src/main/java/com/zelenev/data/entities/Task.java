@@ -54,10 +54,12 @@ public class Task implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date deadline;
 
-    @ManyToMany(
-            mappedBy = "tasks"
+    @OneToMany(
+            mappedBy = "task",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
     )
-    private List<Account> accounts = new LinkedList<>();
+    private List<AccountTask> accountsTasks = new LinkedList<>();
 
     public Task() {
     }
@@ -107,12 +109,12 @@ public class Task implements Serializable {
         this.deadline = deadline;
     }
 
-    public List<Account> getAccounts() {
-        return accounts;
+    public List<AccountTask> getAccountsTasks() {
+        return accountsTasks;
     }
 
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
+    public void setAccountsTasks(List<AccountTask> accountsTasks) {
+        this.accountsTasks = accountsTasks;
     }
 
     @Override
