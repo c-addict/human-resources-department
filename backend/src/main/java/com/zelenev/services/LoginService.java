@@ -40,7 +40,7 @@ public class LoginService {
                 String token = provider.generateToken(account.getLogin(), accountRoles);
                 return new AuthenticationDto(token);
             } else
-                throw new InvalidPasswordException("The is invalid");
+                throw new InvalidPasswordException("The password is invalid");
         } else
             throw new AccountDoesNotExistException("This login does not register");
     }
