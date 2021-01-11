@@ -18,14 +18,24 @@ public class AccountTask {
     @ManyToOne
     @MapsId("accountId")
     @JoinColumn(
-            name = "account_id"
+            name = "account_id",
+            referencedColumnName = "id",
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    name = "account_task_to_account_id_fk"
+            )
     )
     private Account account;
 
     @ManyToOne
     @MapsId("taskId")
     @JoinColumn(
-            name = "task_id"
+            name = "task_id",
+            referencedColumnName = "id",
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    name = "account_task_to_task_id_fk"
+            )
     )
     private Task task;
 
