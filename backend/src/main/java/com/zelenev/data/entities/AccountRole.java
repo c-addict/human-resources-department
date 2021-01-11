@@ -18,14 +18,24 @@ public class AccountRole {
     @ManyToOne
     @MapsId("accountId")
     @JoinColumn(
-            name = "account_id"
+            name = "account_id",
+            referencedColumnName = "id",
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    name = "account_role_to_account_id_fk"
+            )
     )
     private Account account;
 
     @ManyToOne
     @MapsId("roleId")
     @JoinColumn(
-            name = "role_id"
+            name = "role_id",
+            referencedColumnName = "id",
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    name = "account_role_to_role_id_fk"
+            )
     )
     private Role role;
 
