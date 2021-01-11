@@ -47,6 +47,12 @@ public class AccountTask {
         this.task = task;
     }
 
+    public AccountTask(AccountTaskId id, Account account, Task task) {
+        this.id = id;
+        this.account = account;
+        this.task = task;
+    }
+
     public AccountTaskId getId() {
         return id;
     }
