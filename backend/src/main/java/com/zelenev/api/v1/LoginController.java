@@ -1,10 +1,8 @@
 package com.zelenev.api.v1;
 
-import com.zelenev.data.dto.AccountRegistrationDto;
 import com.zelenev.data.dto.AuthenticationDto;
 import com.zelenev.data.dto.LoginDto;
 import com.zelenev.data.entities.Account;
-import com.zelenev.services.AccountService;
 import com.zelenev.services.LoginService;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(
         path = "/login"
 )
+@CrossOrigin("*")
 public class LoginController {
 
     private final LoginService loginService;
