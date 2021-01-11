@@ -35,7 +35,7 @@ public class LoginService {
         if (foundAccount.isPresent()) {
             Account registeredAccount = foundAccount.get();
             String encodedPassword = encoder.encode(account.getPassword());
-            if (registeredAccount.getPassword().equals(encodedPassword)) {
+            if (encoder.matches(account.getPassword(), registeredAccount.getPassword())) {
                 List<Role> accountRoles = roleRepository.findByAccountLogin(account.getLogin());
                 String token = provider.generateToken(account.getLogin(), accountRoles);
                 return new AuthenticationDto(token);

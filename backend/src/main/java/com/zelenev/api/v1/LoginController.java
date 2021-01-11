@@ -20,7 +20,7 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @GetMapping
+    @PostMapping
     public AuthenticationDto login(@RequestBody LoginDto loginDto) {
         Account account = new Account();
 
