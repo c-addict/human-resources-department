@@ -83,6 +83,13 @@ public class Account implements Serializable {
     )
     private List<Task> tasks = new LinkedList<>();
 
+    @OneToMany(
+            mappedBy = "account",
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+    )
+    private List<Change> changes = new LinkedList<>();
+
     public Account() {
     }
 
@@ -145,6 +152,28 @@ public class Account implements Serializable {
 
     public void setCard(Card card) {
         this.card = card;
+    }
+
+    public List<Change> getChanges() {
+        return changes;
+    }
+
+    public void setChanges(List<Change> changes) {
+        this.changes = changes;
+    }
+
+    public void addChange(Change change) {
+        if (!this.changes.contains(change)) {
+            this.changes.add(change);
+            change.setAccount(this);
+        }
+    }
+
+    public void removeChange(Change change) {
+        if (this.changes.contains(change)) {
+            this.changes.remove(change);
+            change.setAccount(null);
+        }
     }
 
     @Override

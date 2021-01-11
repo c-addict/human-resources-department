@@ -32,6 +32,20 @@ public class Change implements Serializable {
     )
     private Integer id;
 
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+    )
+    @JoinColumn(
+            name = "account_id",
+            referencedColumnName = "id",
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    name = "change_to_account_fk"
+            )
+    )
+    private Account account;
+
     @Column(
             name = "parameter",
             nullable = false,
@@ -62,15 +76,17 @@ public class Change implements Serializable {
     public Change() {
     }
 
-    public Change(String parameter, String field, String value, Date date) {
+    public Change(Account account, String parameter, String field, String value, Date date) {
+        this.account = account;
         this.parameter = parameter;
         this.field = field;
         this.value = value;
         this.date = date;
     }
 
-    public Change(Integer id, String parameter, String field, String value, Date date) {
+    public Change(Integer id, Account account, String parameter, String field, String value, Date date) {
         this.id = id;
+        this.account = account;
         this.parameter = parameter;
         this.field = field;
         this.value = value;
@@ -83,6 +99,14 @@ public class Change implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public String getParameter() {
