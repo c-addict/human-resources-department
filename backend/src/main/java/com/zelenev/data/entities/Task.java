@@ -3,6 +3,8 @@ package com.zelenev.data.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -52,6 +54,11 @@ public class Task implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date deadline;
 
+    @ManyToMany(
+            mappedBy = "tasks"
+    )
+    private List<Account> accounts = new LinkedList<>();
+
     public Task() {
     }
 
@@ -98,6 +105,14 @@ public class Task implements Serializable {
 
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.zelenev.data.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -56,6 +58,31 @@ public class Account implements Serializable {
     )
     private Card card;
 
+    @ManyToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+    )
+    @JoinTable(
+            name = "user_task",
+            schema = "public",
+            joinColumns = @JoinColumn(
+                    name = "account_id",
+                    referencedColumnName = "id",
+                    nullable = false,
+                    foreignKey = @ForeignKey(
+                            name = "account_task_to_account_fk"
+                    )
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "task_id",
+                    referencedColumnName = "id",
+                    nullable = false,
+                    foreignKey = @ForeignKey(
+                            name = "account_task_to_task_fk"
+                    )
+            )
+    )
+    private List<Task> tasks = new LinkedList<>();
+
     public Account() {
     }
 
@@ -96,6 +123,24 @@ public class Account implements Serializable {
 
     public Card getCard() {
         return card;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public void takeTask(Task task) {
+        this.tasks.add(task);
+        task.getAccounts().add(this);
+    }
+
+    public void completeTask(Task task) {
+        this.tasks.remove(task);
+        task.getAccounts().remove(this);
     }
 
     public void setCard(Card card) {
