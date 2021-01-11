@@ -2,6 +2,7 @@ package com.zelenev.services;
 
 import com.zelenev.data.dao.AccountRepository;
 import com.zelenev.data.entities.Account;
+import com.zelenev.exceptions.AccountAlreadyExistsException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +26,10 @@ public class AccountService {
     }
 
     public void create(Account account) {
-        this.accountRepository.save(account);
+        Optional<Account> foundAccount = accountRepository.findByLogin(account.getLogin());
+        if (foundAccount.isPresent())
+            throw new AccountAlreadyExistsException("This email already registered");
+        else
+            this.accountRepository.save(account);
     }
 }
