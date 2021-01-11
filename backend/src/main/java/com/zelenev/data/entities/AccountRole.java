@@ -47,6 +47,12 @@ public class AccountRole {
         this.role = role;
     }
 
+    public AccountRole(AccountRoleId id, Account account, Role role) {
+        this.id = id;
+        this.account = account;
+        this.role = role;
+    }
+
     public AccountRoleId getId() {
         return id;
     }
