@@ -2,6 +2,7 @@ package com.zelenev.api.v1;
 
 import com.zelenev.data.dto.AccountRegistrationDto;
 import com.zelenev.data.dto.AuthenticationDto;
+import com.zelenev.data.dto.LoginDto;
 import com.zelenev.data.entities.Account;
 import com.zelenev.services.AccountService;
 import com.zelenev.services.LoginService;
@@ -20,11 +21,11 @@ public class LoginController {
     }
 
     @GetMapping
-    public AuthenticationDto login(@RequestBody AccountRegistrationDto accountRegistrationDto) {
+    public AuthenticationDto login(@RequestBody LoginDto loginDto) {
         Account account = new Account();
 
-        String login = accountRegistrationDto.getLogin();
-        String password = accountRegistrationDto.getPassword();
+        String login = loginDto.getLogin();
+        String password = loginDto.getPassword();
 
         account.setLogin(login);
         account.setPassword(password);
