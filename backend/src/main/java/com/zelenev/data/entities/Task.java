@@ -3,10 +3,9 @@ package com.zelenev.data.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity(name = "Task")
@@ -33,6 +32,20 @@ public class Task implements Serializable {
     )
     private Integer id;
 
+    @ManyToOne(
+            fetch = EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+    )
+    @JoinColumn(
+            name = "account_id",
+            referencedColumnName = "id",
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    name = "task_account_id_fk"
+            )
+    )
+    private Account account;
+
     @Column(
             name = "title",
             nullable = false,
@@ -54,24 +67,21 @@ public class Task implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date deadline;
 
-    @OneToMany(
-            mappedBy = "task",
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
-    )
-    private List<AccountTask> accountsTasks = new LinkedList<>();
+
 
     public Task() {
     }
 
-    public Task(String title, String description, Date deadline) {
+    public Task(Account account,String title, String description, Date deadline) {
+        this.account = account;
         this.title = title;
         this.description = description;
         this.deadline = deadline;
     }
 
-    public Task(Integer id, String title, String description, Date deadline) {
+    public Task(Integer id, Account account, String title, String description, Date deadline) {
         this.id = id;
+        this.account = account;
         this.title = title;
         this.description = description;
         this.deadline = deadline;
@@ -83,6 +93,14 @@ public class Task implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public String getTitle() {
@@ -109,31 +127,24 @@ public class Task implements Serializable {
         this.deadline = deadline;
     }
 
-    public List<AccountTask> getAccountsTasks() {
-        return accountsTasks;
-    }
-
-    public void setAccountsTasks(List<AccountTask> accountsTasks) {
-        this.accountsTasks = accountsTasks;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id.equals(task.id) && title.equals(task.title) && description.equals(task.description) && deadline.equals(task.deadline);
+        return Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(deadline, task.deadline);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, deadline);
+        return Objects.hash(id, account, title, description, deadline);
     }
 
     @Override
     public String toString() {
         return "Task{" +
                 "id=" + id +
+                ", account=" + account +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", deadline=" + deadline +

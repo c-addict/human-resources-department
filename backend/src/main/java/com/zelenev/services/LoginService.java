@@ -1,8 +1,6 @@
 package com.zelenev.services;
 
-import com.zelenev.data.dao.AccountRepository;
-import com.zelenev.data.dao.RoleRepository;
-import com.zelenev.data.dto.AuthenticationDto;
+import com.zelenev.data.dto.AuthenticatedDto;
 import com.zelenev.data.entities.Account;
 import com.zelenev.data.entities.Role;
 import com.zelenev.exceptions.AccountDoesNotExistException;
@@ -17,31 +15,36 @@ import java.util.Optional;
 @Service
 public class LoginService {
 
-    private final AccountRepository accountRepository;
-    private final JwtProvider provider;
+    private final AccountService accountService;
+
+    private final RoleServices roleServices;
+
     private final PasswordEncoder encoder;
-    private final RoleRepository roleRepository;
 
-    public LoginService(AccountRepository accountRepository, JwtProvider provider, PasswordEncoder encoder, RoleRepository roleRepository) {
-        this.accountRepository = accountRepository;
-        this.provider = provider;
+    private final JwtProvider provider;
+
+    public LoginService(AccountService accountService,
+                        RoleServices roleServices,
+                        PasswordEncoder encoder,
+                        JwtProvider provider) {
+        this.accountService = accountService;
+        this.roleServices = roleServices;
         this.encoder = encoder;
-        this.roleRepository = roleRepository;
+        this.provider = provider;
     }
 
-    public AuthenticationDto login(Account account) {
-        String login = account.getLogin();
-        Optional<Account> foundAccount = accountRepository.findByLogin(login);
-        if (foundAccount.isPresent()) {
-            Account registeredAccount = foundAccount.get();
-            String encodedPassword = encoder.encode(account.getPassword());
-            if (encoder.matches(account.getPassword(), registeredAccount.getPassword())) {
-                List<Role> accountRoles = roleRepository.findByAccountLogin(account.getLogin());
-                String token = provider.generateToken(account.getLogin(), accountRoles);
-                return new AuthenticationDto(token);
+    public AuthenticatedDto login(String login, String password) {
+        Optional<Account> registeredAccountOptional = accountService.readAccountByLogin(login);
+        if (registeredAccountOptional.isPresent()) {
+            Account registeredAccount = registeredAccountOptional.get();
+            if (encoder.matches(password, registeredAccount.getPassword())) {
+                List<Role> roles = roleServices.readRolesByAccountLogin(login);
+                String token = provider.generateToken(login, roles);
+                return new AuthenticatedDto(login, token);
             } else
-                throw new InvalidPasswordException("The password is invalid");
+                throw new InvalidPasswordException("Invalid password");
         } else
-            throw new AccountDoesNotExistException("This login does not register");
+            throw new AccountDoesNotExistException(String.format("Login %s does not registered.", login));
     }
+
 }

@@ -2,13 +2,13 @@ package com.zelenev.data.dto;
 
 import java.util.Objects;
 
-public class AccountRegistrationDto {
+public class AccountDto {
 
     private String login;
 
     private String password;
 
-    public AccountRegistrationDto(String login, String password) {
+    public AccountDto(String login, String password) {
         this.login = login;
         this.password = password;
     }
@@ -33,8 +33,8 @@ public class AccountRegistrationDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AccountRegistrationDto that = (AccountRegistrationDto) o;
-        return Objects.equals(login, that.login) && Objects.equals(password, that.password);
+        AccountDto accountDto = (AccountDto) o;
+        return Objects.equals(login, accountDto.login) && Objects.equals(password, accountDto.password);
     }
 
     @Override

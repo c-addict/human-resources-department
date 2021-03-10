@@ -58,12 +58,6 @@ public class Account implements Serializable {
     )
     private Card card;
 
-    @OneToMany(
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-            mappedBy = "account"
-    )
-    private List<AccountTask> accountTasks = new LinkedList<>();
-
 
     @OneToMany(
             mappedBy = "account",
@@ -84,6 +78,13 @@ public class Account implements Serializable {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
     )
     private List<Vacation> vacations = new LinkedList<>();
+
+    @OneToMany(
+            mappedBy = "account",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL
+    )
+    private List<Task> tasks = new LinkedList<>();
 
     public Account() {
     }
@@ -127,14 +128,6 @@ public class Account implements Serializable {
         return card;
     }
 
-    public List<AccountTask> getAccountTasks() {
-        return accountTasks;
-    }
-
-    public void setAccountTasks(List<AccountTask> accountTasks) {
-        this.accountTasks = accountTasks;
-    }
-
     public void setCard(Card card) {
         this.card = card;
     }
@@ -163,14 +156,18 @@ public class Account implements Serializable {
         this.accountRoles = accountRoles;
     }
 
-    public void addAccountTask(AccountTask accountTask) {
-        if (!this.accountTasks.contains(accountTask)) {
-            this.accountTasks.add(accountTask);
+    public void addTask(Task task) {
+        if (!this.tasks.contains(task)) {
+            this.tasks.add(task);
+            task.setAccount(this);
         }
     }
 
-    public void removeAccountTask(AccountTask accountTask) {
-        this.accountTasks.remove(accountTask);
+    public void removeTask(Task task) {
+        if (this.tasks.contains(task)) {
+            this.tasks.remove(task);
+            task.setAccount(null);
+        }
     }
 
     public void addChange(Change change) {

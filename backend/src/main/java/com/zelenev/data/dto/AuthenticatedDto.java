@@ -2,12 +2,23 @@ package com.zelenev.data.dto;
 
 import java.util.Objects;
 
-public class AuthenticationDto {
+public class AuthenticatedDto {
+
+    private String login;
 
     private String token;
 
-    public AuthenticationDto(String token) {
+    public AuthenticatedDto(String login, String token) {
+        this.login = login;
         this.token = token;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getToken() {
@@ -22,12 +33,12 @@ public class AuthenticationDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AuthenticationDto that = (AuthenticationDto) o;
-        return Objects.equals(token, that.token);
+        AuthenticatedDto that = (AuthenticatedDto) o;
+        return Objects.equals(login, that.login) && Objects.equals(token, that.token);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(token);
+        return Objects.hash(login, token);
     }
 }

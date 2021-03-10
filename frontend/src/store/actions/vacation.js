@@ -1,0 +1,2 @@
+export const ADD_VACATION = "ADD_VACATION";
+export const REMOVE_VACATION = "REMOVE_VACATION";

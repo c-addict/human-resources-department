@@ -2,11 +2,23 @@
 
 }
 
-.HeaderNavigationContainer {
-
+.ImageContainer {
 
 }
 
-.HeaderAccountContainer {
+.LinksContainer {
+    display: inline-block;
+}
 
+.LinksUl {
+    list-style: none;
+}
+
+.LinksUl li {
+    display: inline;
+    margin-left: 20px;
+}
+
+a {
+    text-decoration: none;
 }

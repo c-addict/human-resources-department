@@ -1,8 +1,7 @@
 package com.zelenev.api.v1;
 
-import com.zelenev.data.dto.AuthenticationDto;
-import com.zelenev.data.dto.LoginDto;
-import com.zelenev.data.entities.Account;
+import com.zelenev.data.dto.AuthenticatedDto;
+import com.zelenev.data.dto.AccountDto;
 import com.zelenev.services.LoginService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,15 +19,9 @@ public class LoginController {
     }
 
     @PostMapping
-    public AuthenticationDto login(@RequestBody LoginDto loginDto) {
-        Account account = new Account();
-
-        String login = loginDto.getLogin();
-        String password = loginDto.getPassword();
-
-        account.setLogin(login);
-        account.setPassword(password);
-
-        return loginService.login(account);
+    public AuthenticatedDto login(@RequestBody AccountDto accountDto) {
+        String login = accountDto.getLogin();
+        String password = accountDto.getPassword();
+        return loginService.login(login, password);
     }
 }
