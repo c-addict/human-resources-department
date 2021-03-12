@@ -98,7 +98,7 @@ const EditableView = props => {
                         onClick={props.saveCallback}
                     >Save
                     </button>
-                    
+
                     <button
                         className={style.EditButton}
                         onClick={props.editCallback}>

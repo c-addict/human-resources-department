@@ -4,6 +4,8 @@
     border-radius: 5px;
     width: fit-content;
     text-align: center;
+    float: left;
+    outline: 1px solid;
 }
 
 .Task:hover {
