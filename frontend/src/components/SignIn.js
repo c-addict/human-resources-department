@@ -1,10 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import style from "../styles/SignIn.module.css";
 import Header from "./Header";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import loginActionCreator from "../store/actionCreators/loginActionCreator";
+import loginActionCreator from "../store/actionCreators/auth/loginActionCreator";
 
 
 const SignIn = props => {
@@ -55,10 +56,12 @@ const SignIn = props => {
     return (
         <div className={style.SignIn}>
             <Header/>
+            <h1>Sign in</h1>
             <form>
                 <fieldset className={style.FormGroup}>
                     <fieldset className={style.FormGroup}>
                         <input type="text"
+                        className={style.LoginInput}
                         value={login}
                         placeholder="Login"
                         required
@@ -66,18 +69,25 @@ const SignIn = props => {
                     </fieldset>
                     <fieldset className={style.FormGroup}>
                         <input type="password"
+                               className={style.PasswordInput}
                         value={password}
                         placeholder="Password"
                         required
+                        autoComplete="on"
                         onChange={(event) => {setPassword(event.target.value)}}/>
                     </fieldset>
                     <button
+                        className={style.SubmitButton}
                         type="submit"
                         onClick={signIn}>
                         Sign in
                     </button>
                 </fieldset>
             </form>
+            Not registered yet?
+            <Link to="/register">
+                <span> &ensp; Sign up</span>
+            </Link>
         </div>
     );
 }

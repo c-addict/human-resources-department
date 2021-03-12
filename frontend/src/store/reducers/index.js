@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
 import authReducer from "./auth";
-import todoReducer from "./todo";
+import tasksReducer from "./task";
 import accountReducer from "./account";
 import vacationReducer from "./vacation";
 
 const combinedReducers = combineReducers({
     authReducer,
-    todoReducer,
+    tasksReducer,
     accountReducer,
     vacationReducer
 });

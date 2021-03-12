@@ -1,4 +1,4 @@
-import { REGISTER } from "../actions/auth";
+import { REGISTER } from "../../actions/auth";
 
 const registerActionCreator = (value) => {
     return {

@@ -8,6 +8,7 @@ import About from "./About";
 import Contacts from "./Contacts";
 import Logout from "./Logout";
 import Account from "./Account";
+import TasksList from "./TasksList";
 
 
 const App = props => {
@@ -23,6 +24,7 @@ const App = props => {
                     <Route path="/register" component={SignUp}/>
                     <Route path="/logout" component={Logout}/>
                     <Route path="/account" component={Account}/>
+                    <Route path="/task" component={TasksList}/>
                 </Switch>
             </Router>
         </div>

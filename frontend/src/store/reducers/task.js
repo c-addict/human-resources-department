@@ -1,16 +1,24 @@
-import { ADD_TASK, COMPLETE_TASK } from "../actions/todo";
+import { ADD_TASK, COMPLETE_TASK, SET_TASKS } from "../actions/task";
 
-const initialState = [];
+const initialState = {
+    tasks: []
+};
 
-const todoReducer = (state = initialState, action) => {
+const tasksReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_TASK:
-            return [...state, action.value];
+            return {
+                tasks: [...state, action.value]
+            };
         case COMPLETE_TASK:
             return state;
+        case SET_TASKS:
+            return {
+                tasks: action.value
+            }
         default:
             return state;
     }
 };
 
-export default todoReducer;
+export default tasksReducer;

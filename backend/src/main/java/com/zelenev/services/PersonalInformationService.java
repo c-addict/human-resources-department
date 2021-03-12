@@ -44,18 +44,32 @@ public class PersonalInformationService {
         Department department = departmentService.readOrCreateByTitle(personalInformationDto.getDepartment());
         Position position = positionService.readOrCreateByTitle(personalInformationDto.getPosition());
 
-        Card card = new Card(
-                account,
-                firstName,
-                lastName,
-                birthdayDate,
-                phone,
-                salary,
-                department,
-                position
-        );
+        Optional<Card> accountOptionalCard = cardService.readCardByAccountId(account.getId());
 
-        cardService.create(card);
+        if (accountOptionalCard.isPresent()) {
+            Card accountCard = accountOptionalCard.get();
+
+            accountCard.setFirstName(firstName);
+            accountCard.setLastName(lastName);
+            accountCard.setBirthdayDate(birthdayDate);
+            accountCard.setPhone(phone);
+            accountCard.setSalary(salary);
+            accountCard.setDepartment(department);
+            accountCard.setPosition(position);
+        } else {
+            Card card = new Card(
+                    account,
+                    firstName,
+                    lastName,
+                    birthdayDate,
+                    phone,
+                    salary,
+                    department,
+                    position
+            );
+
+            cardService.create(card);
+        }
         }
 
     public PersonalInformationDto readPersonalInformationByAccountLogin(String login) {

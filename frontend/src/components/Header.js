@@ -2,24 +2,25 @@ import React, { useEffect } from "react";
 import style from "../styles/Header.module.css";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import logo from "../images/logo.svg"
 
 const StaticLinks = props => {
 
     return (
         <div className={style.LinksContainer}>
             <ul className={style.LinksUl}>
-                <li>
+                <li className={style.MenuLink}>
                     <Link to="/">
                         Home
                     </Link>
                 </li>
-                <li>
+                <li className={style.MenuLink}>
                     <Link to="/about">
                         About
                     </Link>
                 </li>
 
-                <li>
+                <li className={style.MenuLink}>
                     <Link to="/contacts">
                         Contacts
                     </Link>
@@ -37,13 +38,19 @@ const LoggedInLinksView = props => {
 
             <div className={style.LinksContainer}>
                 <ul className={style.LinksUl}>
-                    <li>
+                    <li className={style.MenuLink}>
                         <Link to="/account">
                             {props.login}
                         </Link>
                     </li>
 
-                    <li>
+                    <li className={style.MenuLink}>
+                        <Link to="/task">
+                            Tasks
+                        </Link>
+                    </li>
+
+                    <li className={style.MenuLink}>
                         <Link to="/logout">
                             Logout
                         </Link>
@@ -62,17 +69,18 @@ const LoggedOutLinksView = props => {
 
             <div className={style.LinksContainer}>
                 <ul className={style.LinksUl}>
-                    <li>
+                    <li className={style.MenuLink}>
                         <Link to="/login">
                             Sign in
                         </Link>
                     </li>
 
-                    <li>
+                    <li className={style.MenuLink}>
                         <Link to="/register">
                             Sign up
                         </Link>
                     </li>
+
                 </ul>
             </div>
         </div>
@@ -90,8 +98,11 @@ const Header = props => {
     return (
         <div className={style.Header}>
 
-            <div className={style.ImageContainer}>
-                <img src="" alt="logo"/>
+            <div className={style.Inline}>
+                <div className={style.ImageContainer}>
+                    <img src={logo} className={style.Logo} alt="logo"/>
+                </div>
+
             </div>
 
             { props.isLoggedIn ?

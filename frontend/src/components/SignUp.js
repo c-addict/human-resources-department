@@ -1,10 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import style from "../styles/SignUp.module.css";
 import Header from "./Header";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import registerActionCreator from "../store/actionCreators/registerActionCreator";
+import registerActionCreator from "../store/actionCreators/auth/registerActionCreator";
 
 
 const SignUp = props => {
@@ -52,10 +53,12 @@ const SignUp = props => {
     return (
         <div className={style.SignUp}>
             <Header/>
-            <form>
+            <h1>Sign up</h1>
+            <form className={style.SignUpForm}>
                 <fieldset className={style.FormGroup}>
                     <fieldset className={style.FormGroup}>
                         <input
+                            className={style.LoginInput}
                             type="text"
                             value={login}
                             placeholder="Login"
@@ -65,20 +68,27 @@ const SignUp = props => {
 
                     <fieldset className={style.FormGroup}>
                         <input
+                            className={style.PasswordInput}
                             type="password"
                             value={password}
                             placeholder="Password"
                             required
+                            autoComplete="on"
                             onChange={(event) => {setPassword(event.target.value)}}/>
                     </fieldset>
 
                     <button
+                        className={style.SubmitButton}
                         type="submit"
                         onClick={signUp}>
                         Sign up
                     </button>
                 </fieldset>
             </form>
+            Already have an account?
+            <Link to="/login">
+                <span> &ensp; Sign in</span>
+            </Link>
         </div>
     );
 }

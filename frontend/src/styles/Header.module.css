@@ -1,9 +1,14 @@
 .Header {
+    padding-top: 20px;
+    padding-bottom: 50px;
+}
 
+.Inline {
+    float: left;
 }
 
 .ImageContainer {
-
+    padding-left: 40px;
 }
 
 .LinksContainer {
@@ -21,4 +26,29 @@
 
 a {
     text-decoration: none;
+}
+
+.Logo {
+    width: 64px;
+    height: 64px;
+}
+
+.MenuLink a{
+    text-decoration: none;
+    padding: 10px 20px;
+    width: 137px;
+    height: 44px;
+    left: 174px;
+    top: 0px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+
+    font-family: SF Pro Text, serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+
+    color: #FFFFFF;
 }

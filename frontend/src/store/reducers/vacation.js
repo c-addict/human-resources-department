@@ -1,14 +1,23 @@
-import { ADD_VACATION, REMOVE_VACATION } from "../actions/vacation";
+import { ADD_VACATION, REMOVE_VACATION, SET_VACATIONS } from "../actions/vacation";
 
-const initialState = [];
+const initialState = {
+    vacations: []
+};
 
 const vacationReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_VACATION:
-            return [...state, action.value];
+            return {
+                vacations: [...state, action.value]
+            };
         case REMOVE_VACATION:
             //TODO
             return null;
+        case SET_VACATIONS:
+            return {
+                vacations: action.value
+            }
+
         default:
             return initialState;
     }

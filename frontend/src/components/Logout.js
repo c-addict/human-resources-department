@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import logoutActionCreator from "../store/actionCreators/logoutActionCreator";
+import logoutActionCreator from "../store/actionCreators/auth/logoutActionCreator";
 import { connect } from "react-redux";
 
 const Logout = props => {
